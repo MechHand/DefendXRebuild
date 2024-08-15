@@ -1,0 +1,105 @@
+[gd_scene load_steps=16 format=3 uid="uid://x14451anin2d"]
+
+[ext_resource type="Script" path="res://Nodes/Terrain/WorldResources/WorldResource.gd" id="1_8hf1f"]
+[ext_resource type="Texture2D" uid="uid://dfq7872cdc4ue" path="res://Nodes/Terrain/WorldResources/MetalPieces/MetalPices.png" id="2_nj3xr"]
+[ext_resource type="PackedScene" uid="uid://dsa63q5anxhoq" path="res://Nodes/Terrain/WorldResources/ResourceComponents/harverst_area.tscn" id="5_wamim"]
+[ext_resource type="PackedScene" uid="uid://dxxba13pbncd" path="res://Nodes/Terrain/WorldResources/ResourceComponents/resource_performance_enabler.tscn" id="6_8vi7y"]
+[ext_resource type="PackedScene" uid="uid://cgmhw143vqhx4" path="res://Nodes/Terrain/WorldResources/ResourceComponents/resource_hud.tscn" id="7_6s2sg"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_s7ox5"]
+blend_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_b5nyg"]
+offsets = PackedFloat32Array(0, 0.2, 0.6, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 7.21961e-08, 0, 0.111866, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_5tt5e"]
+gradient = SubResource("Gradient_b5nyg")
+width = 16
+
+[sub_resource type="Curve" id="Curve_qt0si"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.2, 1), 0.0, 0.0, 0, 0, Vector2(0.7, 0.1), 0.0, 0.0, 0, 0]
+point_count = 3
+metadata/_snap_enabled = true
+
+[sub_resource type="Curve" id="Curve_x264p"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.765306, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_el817"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_v6i20"]
+curve_x = SubResource("Curve_qt0si")
+curve_y = SubResource("Curve_x264p")
+curve_z = SubResource("Curve_el817")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vvpo7"]
+lifetime_randomness = 0.25
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(8, 1, 1)
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 64.0
+initial_velocity_max = 80.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveXYZTexture_v6i20")
+color_ramp = SubResource("GradientTexture1D_5tt5e")
+
+[sub_resource type="Gradient" id="Gradient_eptxs"]
+colors = PackedColorArray(0, 1, 1, 1, 0, 0, 0, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_r3xx3"]
+gradient = SubResource("Gradient_eptxs")
+width = 16
+height = 16
+fill = 2
+fill_from = Vector2(0.5, 0.5)
+metadata/_snap_enabled = true
+
+[node name="MetalPieces_Resource" type="Node2D" node_paths=PackedStringArray("harverst_area", "respawn_timer", "sprite_node", "resource_hud", "collecting_effect")]
+z_index = -1
+script = ExtResource("1_8hf1f")
+material_type = 1
+colect_min_amount = 3
+colect_max_amount = 6
+harvest_time = 5.5
+respawn_time = 30.0
+harverst_area = NodePath("HarverstArea")
+respawn_timer = NodePath("RespawnTimer")
+sprite_node = NodePath("MetalSprite")
+resource_hud = NodePath("ResourceHud")
+collecting_effect = NodePath("CollectingEffect")
+
+[node name="MetalSprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_nj3xr")
+centered = false
+offset = Vector2(-16, -32)
+hframes = 2
+
+[node name="HarverstArea" parent="." instance=ExtResource("5_wamim")]
+
+[node name="ResourcePerformanceEnabler" parent="." instance=ExtResource("6_8vi7y")]
+
+[node name="ResourceHud" parent="." instance=ExtResource("7_6s2sg")]
+offset_left = -32.0
+offset_top = -64.0
+offset_right = 32.0
+offset_bottom = -42.0
+
+[node name="CollectingEffect" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_s7ox5")
+position = Vector2(0, 8)
+amount = 14
+process_material = SubResource("ParticleProcessMaterial_vvpo7")
+texture = SubResource("GradientTexture2D_r3xx3")
+lifetime = 0.75
+randomness = 0.25
+
+[node name="RespawnTimer" type="Timer" parent="."]
+wait_time = 180.0
+one_shot = true

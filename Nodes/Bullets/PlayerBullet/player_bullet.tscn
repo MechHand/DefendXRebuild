@@ -1,0 +1,173 @@
+[gd_scene load_steps=21 format=3 uid="uid://qsjhkjjhqsk3"]
+
+[ext_resource type="Script" path="res://Nodes/Bullets/PlayerBullet/player_bullet.gd" id="1_u6edj"]
+[ext_resource type="AudioStream" uid="uid://v00nrjkcu684" path="res://SFX/PlayerLaserShot.wav" id="2_ht745"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ea72k"]
+light_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_47b77"]
+resource_local_to_scene = true
+offsets = PackedFloat32Array(0.3, 0.7, 0.8)
+colors = PackedColorArray(0.682353, 1, 1, 1, 1.29953e-06, 0.482616, 0.482616, 1, 0, 0, 0.662745, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_g8e60"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_47b77")
+width = 12
+height = 8
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="Animation" id="Animation_c5ins"]
+resource_name = "BulletAnim"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture:gradient:offsets")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [PackedFloat32Array(0.3, 0.7, 0.8), PackedFloat32Array(0, 0.4, 0.9)]
+}
+
+[sub_resource type="Animation" id="Animation_o3y4f"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture:gradient:offsets")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [PackedFloat32Array(0.3, 0.7, 0.8)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sy0y4"]
+_data = {
+"BulletAnim": SubResource("Animation_c5ins"),
+"RESET": SubResource("Animation_o3y4f")
+}
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_oecg1"]
+blend_mode = 1
+light_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_ahggt"]
+offsets = PackedFloat32Array(0.5, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_rtc75"]
+gradient = SubResource("Gradient_ahggt")
+width = 32
+
+[sub_resource type="Curve" id="Curve_xvvbi"]
+_data = [Vector2(0, 1), 0.0, -1.0, 0, 1, Vector2(1, 0), -1.0, 0.0, 1, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_xxxi5"]
+width = 32
+curve = SubResource("Curve_xvvbi")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_j5l0u"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_xxxi5")
+color = Color(0, 0.98632, 0.98632, 1)
+color_ramp = SubResource("GradientTexture1D_rtc75")
+
+[sub_resource type="Gradient" id="Gradient_cokcb"]
+resource_local_to_scene = true
+offsets = PackedFloat32Array(0, 0.4, 0.9)
+colors = PackedColorArray(1, 1, 1, 1, 0.521141, 0.521141, 0.521141, 1, 0, 0, 0, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_kaucu"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_cokcb")
+width = 12
+height = 8
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_hhkfo"]
+offsets = PackedFloat32Array(0.142857, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_3hvu6"]
+gradient = SubResource("Gradient_hhkfo")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vwwef"]
+radius = 5.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_8bvqu"]
+random_pitch = 1.4
+random_volume_offset_db = 2.0
+streams_count = 1
+stream_0/stream = ExtResource("2_ht745")
+stream_0/weight = 1.0
+
+[node name="PlayerBullet" type="Node2D"]
+script = ExtResource("1_u6edj")
+
+[node name="BulletSprite" type="Sprite2D" parent="."]
+material = SubResource("CanvasItemMaterial_ea72k")
+texture = SubResource("GradientTexture2D_g8e60")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="BulletSprite"]
+libraries = {
+"": SubResource("AnimationLibrary_sy0y4")
+}
+autoplay = "BulletAnim"
+
+[node name="BulletParticles" type="GPUParticles2D" parent="BulletSprite"]
+z_index = -1
+material = SubResource("CanvasItemMaterial_oecg1")
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_j5l0u")
+texture = SubResource("GradientTexture2D_kaucu")
+lifetime = 0.5
+
+[node name="PointLight2D" type="PointLight2D" parent="BulletSprite"]
+energy = 1.5
+texture = SubResource("GradientTexture2D_3hvu6")
+texture_scale = 3.0
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 20
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_vwwef")
+debug_color = Color(0.313726, 0.643137, 0.270588, 0)
+
+[node name="AutoDestroyTimer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_8bvqu")
+autoplay = true
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="AutoDestroyTimer" to="." method="_on_auto_destroy_timer_timeout"]

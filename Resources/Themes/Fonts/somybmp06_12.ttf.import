@@ -1,0 +1,38 @@
+[remap]
+
+importer="font_data_dynamic"
+type="FontFile"
+uid="uid://colvxko71gxkx"
+path="res://.godot/imported/somybmp06_12.ttf-06cd29d896178764406ca2eea8468f19.fontdata"
+
+[deps]
+
+source_file="res://Resources/Themes/Fonts/somybmp06_12.ttf"
+dest_files=["res://.godot/imported/somybmp06_12.ttf-06cd29d896178764406ca2eea8468f19.fontdata"]
+
+[params]
+
+Rendering=null
+antialiasing=0
+generate_mipmaps=false
+multichannel_signed_distance_field=false
+msdf_pixel_range=8
+msdf_size=48
+allow_system_fallback=false
+force_autohinter=false
+hinting=1
+subpixel_positioning=1
+oversampling=0.0
+Fallbacks=null
+fallbacks=[]
+Compress=null
+compress=false
+preload=[{
+"chars": [],
+"glyphs": [],
+"name": "New Configuration",
+"size": Vector2i(16, 0)
+}]
+language_support={}
+script_support={}
+opentype_features={}

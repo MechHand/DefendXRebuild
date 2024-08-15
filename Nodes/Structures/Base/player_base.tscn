@@ -1,0 +1,1192 @@
+[gd_scene load_steps=59 format=3 uid="uid://dn8qejcyj1udr"]
+
+[ext_resource type="Script" path="res://Nodes/Structures/GameStructure.gd" id="1_15phm"]
+[ext_resource type="Script" path="res://Nodes/Structures/Base/SnapPlayerToBase.gd" id="2_cy0in"]
+[ext_resource type="Script" path="res://Nodes/Structures/Base/BaseGenerator.gd" id="2_h482u"]
+[ext_resource type="Texture2D" uid="uid://bsfagtdyyjclq" path="res://Nodes/Structures/Base/Base.png" id="2_lw0mj"]
+[ext_resource type="PackedScene" uid="uid://b8rkdus54fbrs" path="res://Nodes/Terrain/BaseTerrainTilemap.tscn" id="6_np0mq"]
+[ext_resource type="Script" path="res://Nodes/Terrain/WorldResources/ResourceComponents/resource_hud.gd" id="6_ycgvm"]
+[ext_resource type="Script" path="res://Nodes/Structures/Base/UpgradeArea.gd" id="7_5khc3"]
+[ext_resource type="PackedScene" uid="uid://cldfvstlgf1mi" path="res://Nodes/HUD/button_hud.tscn" id="7_vlfgd"]
+[ext_resource type="PackedScene" uid="uid://j8o0jo6gnhvn" path="res://Nodes/ColorPaletteShaderNode/color_palette_shader_node.tscn" id="8_d03yh"]
+[ext_resource type="Theme" uid="uid://1xsms24mcd22" path="res://Resources/Themes/GameTheme.tres" id="9_pn6mi"]
+[ext_resource type="Theme" uid="uid://bxslmllxkgva7" path="res://Resources/Themes/ImpactTheme.tres" id="10_qnyrp"]
+[ext_resource type="Texture2D" uid="uid://do4v6m1mll4yr" path="res://Nodes/HUD/UpgradeScreen/UpgradeCartrige_Normal.png" id="11_0gi8b"]
+[ext_resource type="Texture2D" uid="uid://btd6qv7t23sbi" path="res://Nodes/HUD/UpgradeScreen/UpgradeCartrige_Hover.png" id="12_m6o8a"]
+[ext_resource type="Texture2D" uid="uid://dmgu7w0rsfs7w" path="res://Nodes/HUD/InGameHud/ResourceIcon_.png" id="13_nd413"]
+[ext_resource type="AudioStream" uid="uid://78ky55vdj8lf" path="res://SFX/Upgrade.wav" id="14_tj8k7"]
+[ext_resource type="AudioStream" uid="uid://deuyjqddlnceg" path="res://SFX/InitialTelepor.wav" id="15_n6gfn"]
+
+[sub_resource type="Gradient" id="Gradient_lx3vv"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2pngf"]
+gradient = SubResource("Gradient_lx3vv")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="Animation" id="Animation_e0dun"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TeleportEffect:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.1, 16)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TeleportEffect:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("TeleportEffect:texture:gradient:colors")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("GPUParticles2D:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("SnapPlayerToBase/PointLight2D:energy")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("AudioStreamPlayer:playing")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_brijn"]
+resource_name = "SpawnPlayer"
+length = 4.0
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_snap_to_floor"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TeleportEffect:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1, 1.1, 1.9, 3, 3.3),
+"transitions": PackedFloat32Array(1, 1, 0.5, 0.5, 0.5),
+"update": 0,
+"values": [Vector2(0.1, 16), Vector2(1, 16), Vector2(1.5, 16), Vector2(1.5, 16), Vector2(0.1, 16)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("TeleportEffect:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.9, 1, 3, 3.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(0.207843, 0.960784, 0.380392, 1), Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("TeleportEffect:texture:gradient:colors")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0), PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0), PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0), PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0), PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0), PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0), PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0), PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0), PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0), PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0), PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0), PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0), PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0), PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0), PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0), PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0), PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0), PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0), PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0), PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("GPUParticles2D:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 1.1, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/6/type = "method"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("SnapPlayerToBase")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.5, 3),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"_snap_player"
+}, {
+"args": [],
+"method": &"_show_player"
+}]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("SnapPlayerToBase/PointLight2D:energy")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.9, 1.2, 3, 3.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 2.0, 0.5, 0.0]
+}
+tracks/8/type = "method"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("BaseGenerator")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0.05),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"_generate_base"
+}]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("AudioStreamPlayer:playing")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0, 1.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gnyyf"]
+_data = {
+"RESET": SubResource("Animation_e0dun"),
+"SpawnPlayer": SubResource("Animation_brijn")
+}
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ahpsl"]
+blend_mode = 1
+light_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_n1pp6"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(0, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_rlpij"]
+gradient = SubResource("Gradient_n1pp6")
+
+[sub_resource type="Gradient" id="Gradient_16v2g"]
+offsets = PackedFloat32Array(0.7, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 1, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_gbjig"]
+gradient = SubResource("Gradient_16v2g")
+
+[sub_resource type="Curve" id="Curve_g2fxb"]
+max_value = 2.0
+_data = [Vector2(0, 2), 0.0, 0.0, 0, 0, Vector2(0.3, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_enabled = true
+
+[sub_resource type="Curve" id="Curve_i3711"]
+max_value = 2.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.3, 1), 0.0, 0.0, 0, 0, Vector2(0.5, 2), 0.0, 0.0, 0, 0]
+point_count = 3
+metadata/_snap_enabled = true
+
+[sub_resource type="Curve" id="Curve_5rhfh"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_excd7"]
+curve_x = SubResource("Curve_g2fxb")
+curve_y = SubResource("Curve_i3711")
+curve_z = SubResource("Curve_5rhfh")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ioxu8"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(16, 2, 1)
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 48.0
+initial_velocity_max = 120.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveXYZTexture_excd7")
+color_ramp = SubResource("GradientTexture1D_gbjig")
+color_initial_ramp = SubResource("GradientTexture1D_rlpij")
+
+[sub_resource type="Gradient" id="Gradient_liimw"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_uavpw"]
+gradient = SubResource("Gradient_liimw")
+width = 8
+height = 8
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_l2y7f"]
+offsets = PackedFloat32Array(0, 0.1, 0.5, 0.9, 1)
+colors = PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ffxgb"]
+gradient = SubResource("Gradient_l2y7f")
+width = 24
+height = 16
+metadata/_snap_enabled = true
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_hxd2s"]
+light_mode = 1
+
+[sub_resource type="Animation" id="Animation_akfkw"]
+resource_name = "HideOff"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ButtonHUD:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:visible_ratio")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [1.0, 0.0, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Panel:size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(44, 15), Vector2(8, 8)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ButtonHUD:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_dgfga"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ButtonHUD:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:visible_ratio")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Panel:size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(43, 15)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ButtonHUD:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_mihx5"]
+resource_name = "ShowUp"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ButtonHUD:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:visible_ratio")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0, 0.0, 1.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Panel:size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(8, 8), Vector2(44, 15)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ButtonHUD:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.5, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/4/type = "method"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ButtonHUD")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"Collect", 1.0, false],
+"method": &"play"
+}]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_3vk5m"]
+_data = {
+"HideOff": SubResource("Animation_akfkw"),
+"RESET": SubResource("Animation_dgfga"),
+"ShowUp": SubResource("Animation_mihx5")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i2ual"]
+size = Vector2(19, 18)
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_3ge7b"]
+blend_mode = 1
+light_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_apxu2"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.1, 0.9)
+colors = PackedColorArray(0, 0, 1, 1, 0, 1, 1, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_hpfks"]
+gradient = SubResource("Gradient_apxu2")
+width = 32
+
+[sub_resource type="Gradient" id="Gradient_vw5ww"]
+offsets = PackedFloat32Array(0, 0.1, 1)
+colors = PackedColorArray(0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_1dg4x"]
+gradient = SubResource("Gradient_vw5ww")
+width = 32
+
+[sub_resource type="Curve" id="Curve_xbidm"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_us0bx"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.1, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.3), 0.0, 0.0, 0, 0]
+point_count = 3
+metadata/_snap_enabled = true
+
+[sub_resource type="Curve" id="Curve_4vutp"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_gufnj"]
+curve_x = SubResource("Curve_xbidm")
+curve_y = SubResource("Curve_us0bx")
+curve_z = SubResource("Curve_4vutp")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_4ulks"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(8, 1, 1)
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 2.0
+initial_velocity_max = 8.0
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveXYZTexture_gufnj")
+color_ramp = SubResource("GradientTexture1D_1dg4x")
+color_initial_ramp = SubResource("GradientTexture1D_hpfks")
+
+[sub_resource type="Gradient" id="Gradient_nfqec"]
+offsets = PackedFloat32Array(0.5, 0.6, 0.8, 1)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5obf8"]
+gradient = SubResource("Gradient_nfqec")
+width = 2
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_0f4rp"]
+interpolation_mode = 1
+offsets = PackedFloat32Array(0, 0.0781893, 0.152263, 0.209877, 0.9)
+colors = PackedColorArray(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ipvi2"]
+gradient = SubResource("Gradient_0f4rp")
+width = 256
+height = 144
+fill_to = Vector2(0, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="Animation" id="Animation_g2fse"]
+resource_name = "OpenUpgrade"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.1, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(0, 0, 0.560784, 0.32549)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureRect:texture:width")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.6),
+"transitions": PackedFloat32Array(2, 2),
+"update": 0,
+"values": [2, 256]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TextureRect:size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1, 0.6),
+"transitions": PackedFloat32Array(2, 2),
+"update": 0,
+"values": [Vector2(2, 144), Vector2(256, 144)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("UpgradeTitle:visible_ratio")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.6, 1.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = false
+tracks/4/path = NodePath("ReturnButton:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("UpgradeList/UpgradeButton1:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 1.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("UpgradeList/UpgradeButton2:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 1.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("UpgradeList/UpgradeButton3:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 1.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("..:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_djodo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureRect:texture:width")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [256]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TextureRect:size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2, 144)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("UpgradeTitle:visible_ratio")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("ReturnButton:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("UpgradeList/UpgradeButton1:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("UpgradeList/UpgradeButton2:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("UpgradeList/UpgradeButton3:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("..:visible")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_g1lod"]
+_data = {
+"OpenUpgrade": SubResource("Animation_g2fse"),
+"RESET": SubResource("Animation_djodo")
+}
+
+[node name="PlayerBase" type="Node2D"]
+script = ExtResource("1_15phm")
+points_to_repair = 5
+material_to_repair = 2
+
+[node name="BaseGenerator" type="Node" parent="." node_paths=PackedStringArray("player_base")]
+script = ExtResource("2_h482u")
+player_base = NodePath("..")
+
+[node name="SnapPlayerToBase" type="Node2D" parent="."]
+position = Vector2(-4, -8)
+script = ExtResource("2_cy0in")
+
+[node name="PointLight2D" type="PointLight2D" parent="SnapPlayerToBase"]
+energy = 0.0
+texture = SubResource("GradientTexture2D_2pngf")
+texture_scale = 8.0
+
+[node name="BaseSprite" type="Sprite2D" parent="."]
+position = Vector2(0, -16)
+texture = ExtResource("2_lw0mj")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(14, 0, 3, -6, -16, -6, -16, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_gnyyf")
+}
+autoplay = "SpawnPlayer"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+z_index = 1
+material = SubResource("CanvasItemMaterial_ahpsl")
+position = Vector2(-4, -6)
+emitting = false
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_ioxu8")
+texture = SubResource("GradientTexture2D_uavpw")
+
+[node name="TeleportEffect" type="Sprite2D" parent="."]
+z_index = 5
+position = Vector2(-4, -6)
+scale = Vector2(0.1, 16)
+texture = SubResource("GradientTexture2D_ffxgb")
+centered = false
+offset = Vector2(-12, -16)
+
+[node name="UpgradeHud" type="Control" parent="." node_paths=PackedStringArray("animation_player")]
+visible = false
+material = SubResource("CanvasItemMaterial_hxd2s")
+custom_minimum_size = Vector2(32, 22)
+layout_mode = 3
+anchors_preset = 0
+offset_left = -16.0
+offset_top = -64.0
+offset_right = 53.0
+offset_bottom = -42.0
+theme = ExtResource("9_pn6mi")
+script = ExtResource("6_ycgvm")
+animation_player = NodePath("AnimationPlayer")
+
+[node name="Panel" type="Panel" parent="UpgradeHud"]
+use_parent_material = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 4.0
+offset_right = 47.0
+offset_bottom = 15.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="UpgradeHud"]
+use_parent_material = true
+layout_mode = 1
+offset_left = 4.0
+offset_top = 3.0
+offset_right = 40.0
+offset_bottom = 12.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+text = "Upgrade"
+visible_characters = 0
+visible_ratio = 0.0
+
+[node name="ButtonHUD" parent="UpgradeHud" instance=ExtResource("7_vlfgd")]
+visible = false
+self_modulate = Color(1, 1, 1, 0)
+use_parent_material = true
+position = Vector2(56, 7)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UpgradeHud"]
+libraries = {
+"": SubResource("AnimationLibrary_3vk5m")
+}
+speed_scale = 4.0
+
+[node name="BaseTerrainTilemap" parent="." instance=ExtResource("6_np0mq")]
+z_index = -8
+layer_1/modulate = Color(0.399965, 0.630775, 0.929615, 1)
+layer_1/tile_data = PackedInt32Array(65535, 131073, 2, -1, 131073, 1, -65537, 131073, 2, -131073, 196609, 2, 65534, 131073, 2, -2, 131073, 2, -65538, 131073, 1, -131074, 65537, 2, 65533, 131073, 1, -3, 131073, 2, -65539, 131073, 2, -131075, 131073, 0, 65532, 131073, 2, -4, 131073, 1, -65540, 131073, 1, -131076, 196609, 2, 1, 131073, 1, -65535, 196609, 2, -131071, 196609, 1, -196607, 196609, 0, 0, 131073, 2, -65536, 131073, 1, -131072, 131073, 2, -196608, 131073, 0, -196609, 196609, 1, -262145, 196609, 0, -196610, 65537, 1, -262146, 65537, 0, -196612, 196609, 1, -262148, 196609, 1, -327684, 196609, 1, -393220, 196609, 0, 65531, 65537, 1, -5, 65537, 1, -65541, 65537, 1, -131077, 65537, 1, -196613, 65537, 1, -262149, 65537, 1, -327685, 65537, 1, -393221, 65537, 0, 2, 196609, 1, -65534, 196609, 0, 6, 131073, 2, -65530, 131073, 2, -131066, 65537, 2, 5, 131073, 2, -65531, 131073, 2, -131067, 131073, 0, 4, 65537, 1, -65532, 65537, 1, -131068, 65537, 0, 7, 131073, 2, -65529, 196609, 2, -131065, 196609, 1, -196601, 196609, 1, -262137, 196609, 0, -196602, 65537, 1, -262138, 65537, 0, 10, 196609, 1, -65526, 196609, 0, 9, 131073, 2, -65527, 131073, 0, 8, 131073, 1, -65528, 131073, 0, 17, 131073, 2, -65519, 131073, 2, -131055, 196609, 2, -196591, 196609, 0, 16, 131073, 2, -65520, 131073, 1, -131056, 131073, 2, -196592, 131073, 0, 15, 131073, 1, -65521, 131073, 2, -131057, 131073, 1, -196593, 131073, 0, 14, 131073, 1, -65522, 65537, 2, -131058, 65537, 1, -196594, 65537, 0, 13, 65537, 1, -65523, 65537, 0, 18, 196609, 1, -65518, 196609, 1, -131054, 196609, 0, 23, 131073, 1, -65513, 131073, 1, 22, 131073, 1, -65514, 65537, 2, 21, 131073, 2, -65515, 131073, 0, 20, 65537, 1, -65516, 65537, 0, 24, 196609, 1, -65512, 196609, 1, -131048, 196609, 0, -131049, 131073, 0, -131050, 65537, 0, 27, 131073, 2, -65509, 196609, 2, -131045, 196609, 0, 26, 65537, 1, -65510, 65537, 1, -131046, 65537, 0, 28, 196609, 1, -65508, 196609, 0)
+
+[node name="UpgradeArea" type="Area2D" parent="." node_paths=PackedStringArray("upgrade_hud", "upgrade_buttons")]
+process_mode = 3
+script = ExtResource("7_5khc3")
+upgrade_hud = NodePath("../UpgradeHud")
+upgrade_buttons = [NodePath("UpgradeScreen/Control/UpgradeList/UpgradeButton1"), NodePath("UpgradeScreen/Control/UpgradeList/UpgradeButton2"), NodePath("UpgradeScreen/Control/UpgradeList/UpgradeButton3")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UpgradeArea"]
+position = Vector2(-7, -15)
+shape = SubResource("RectangleShape2D_i2ual")
+
+[node name="UpgradeParticles" type="GPUParticles2D" parent="UpgradeArea"]
+texture_filter = 2
+material = SubResource("CanvasItemMaterial_3ge7b")
+position = Vector2(-7, -5)
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_4ulks")
+texture = SubResource("GradientTexture2D_5obf8")
+fixed_fps = 15
+
+[node name="UpgradeScreen" type="CanvasLayer" parent="UpgradeArea"]
+visible = false
+
+[node name="ColorPaletteShaderNode" parent="UpgradeArea/UpgradeScreen" instance=ExtResource("8_d03yh")]
+position = Vector2(128, 64)
+
+[node name="Control" type="Control" parent="UpgradeArea/UpgradeScreen"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("9_pn6mi")
+
+[node name="ColorRect" type="ColorRect" parent="UpgradeArea/UpgradeScreen/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)
+
+[node name="TextureRect" type="TextureRect" parent="UpgradeArea/UpgradeScreen/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 256.0
+offset_bottom = 144.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_ipvi2")
+
+[node name="UpgradeTitle" type="Label" parent="UpgradeArea/UpgradeScreen/Control"]
+layout_mode = 0
+offset_top = 12.0
+offset_right = 256.0
+offset_bottom = 26.0
+theme = ExtResource("10_qnyrp")
+text = "UPGRADE"
+horizontal_alignment = 1
+vertical_alignment = 2
+visible_characters = 0
+visible_characters_behavior = 1
+visible_ratio = 0.0
+
+[node name="UpgradeScreenAnim" type="AnimationPlayer" parent="UpgradeArea/UpgradeScreen/Control"]
+libraries = {
+"": SubResource("AnimationLibrary_g1lod")
+}
+
+[node name="ReturnButton" type="Button" parent="UpgradeArea/UpgradeScreen/Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -38.0
+offset_top = -14.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Return"
+
+[node name="UpgradeList" type="HBoxContainer" parent="UpgradeArea/UpgradeScreen/Control"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 31.0
+offset_right = 248.0
+offset_bottom = 129.0
+alignment = 1
+
+[node name="UpgradeButton1" type="TextureButton" parent="UpgradeArea/UpgradeScreen/Control/UpgradeList"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+texture_normal = ExtResource("11_0gi8b")
+texture_pressed = ExtResource("11_0gi8b")
+texture_hover = ExtResource("12_m6o8a")
+texture_focused = ExtResource("11_0gi8b")
+
+[node name="UpgradeDesc" type="Label" parent="UpgradeArea/UpgradeScreen/Control/UpgradeList/UpgradeButton1"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 7.0
+offset_right = 44.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "+15%
+TURRET DMG"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="UpgradeArea/UpgradeScreen/Control/UpgradeList/UpgradeButton1"]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 48.0
+offset_bottom = 98.0
+
+[node name="Sprite2D" type="Sprite2D" parent="UpgradeArea/UpgradeScreen/Control/UpgradeList/UpgradeButton1/PanelContainer"]
+position = Vector2(8, 9)
+texture = ExtResource("13_nd413")
+region_enabled = true
+region_rect = Rect2(0, 34, 11, 11)
+
+[node name="UpgradeAmount" type="Label" parent="UpgradeArea/UpgradeScreen/Control/UpgradeList/UpgradeButton1/PanelContainer"]
+layout_mode = 2
+text = "x 5 "
+horizontal_alignment = 2
+
+[node name="UpgradeButton2" type="TextureButton" parent="UpgradeArea/UpgradeScreen/Control/UpgradeList"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+texture_normal = ExtResource("11_0gi8b")
+texture_pressed = ExtResource("11_0gi8b")
+texture_hover = ExtResource("12_m6o8a")
+texture_focused = ExtResource("11_0gi8b")
+
+[node name="UpgradeDesc" type="Label" parent="UpgradeArea/UpgradeScreen/Control/UpgradeList/UpgradeButton2"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 7.0
+offset_right = 44.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "+15%
+TURRET DMG"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="UpgradeArea/UpgradeScreen/Control/UpgradeList/UpgradeButton2"]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 48.0
+offset_bottom = 98.0
+
+[node name="Sprite2D" type="Sprite2D" parent="UpgradeArea/UpgradeScreen/Control/UpgradeList/UpgradeButton2/PanelContainer"]
+position = Vector2(8, 9)
+texture = ExtResource("13_nd413")
+region_enabled = true
+region_rect = Rect2(0, 34, 11, 11)
+
+[node name="UpgradeAmount" type="Label" parent="UpgradeArea/UpgradeScreen/Control/UpgradeList/UpgradeButton2/PanelContainer"]
+layout_mode = 2
+text = "x 5 "
+horizontal_alignment = 2
+
+[node name="UpgradeButton3" type="TextureButton" parent="UpgradeArea/UpgradeScreen/Control/UpgradeList"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 6
+texture_normal = ExtResource("11_0gi8b")
+texture_pressed = ExtResource("11_0gi8b")
+texture_hover = ExtResource("12_m6o8a")
+texture_focused = ExtResource("11_0gi8b")
+
+[node name="UpgradeDesc" type="Label" parent="UpgradeArea/UpgradeScreen/Control/UpgradeList/UpgradeButton3"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 7.0
+offset_right = 44.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "+15%
+TURRET DMG"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="UpgradeArea/UpgradeScreen/Control/UpgradeList/UpgradeButton3"]
+layout_mode = 0
+offset_top = 80.0
+offset_right = 48.0
+offset_bottom = 98.0
+
+[node name="Sprite2D" type="Sprite2D" parent="UpgradeArea/UpgradeScreen/Control/UpgradeList/UpgradeButton3/PanelContainer"]
+position = Vector2(8, 9)
+texture = ExtResource("13_nd413")
+region_enabled = true
+region_rect = Rect2(0, 34, 11, 11)
+
+[node name="UpgradeAmount" type="Label" parent="UpgradeArea/UpgradeScreen/Control/UpgradeList/UpgradeButton3/PanelContainer"]
+layout_mode = 2
+text = "x 5 "
+horizontal_alignment = 2
+
+[node name="GotUpgrade" type="AudioStreamPlayer" parent="UpgradeArea/UpgradeScreen"]
+stream = ExtResource("14_tj8k7")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_n6gfn")
+
+[connection signal="body_entered" from="UpgradeArea" to="UpgradeArea" method="_on_body_entered"]
+[connection signal="body_exited" from="UpgradeArea" to="UpgradeArea" method="_on_body_exited"]
+[connection signal="pressed" from="UpgradeArea/UpgradeScreen/Control/UpgradeList/UpgradeButton1" to="UpgradeArea" method="_on_upgrade_button_1_pressed"]
+[connection signal="pressed" from="UpgradeArea/UpgradeScreen/Control/UpgradeList/UpgradeButton2" to="UpgradeArea" method="_on_upgrade_button_2_pressed"]
+[connection signal="pressed" from="UpgradeArea/UpgradeScreen/Control/UpgradeList/UpgradeButton3" to="UpgradeArea" method="_on_upgrade_button_3_pressed"]

@@ -1,0 +1,84 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Defend x Rebuild"
+config/tags=PackedStringArray("defend_x_rebuild", "game_jam")
+run/main_scene="res://Scenes/MainMenu/main_menu.tscn"
+config/features=PackedStringArray("4.3", "GL Compatibility")
+config/icon="res://Nodes/HUD/InGameHud/PlayerProfile-export.png"
+
+[autoload]
+
+ScreenEffects="*res://Nodes/ScreenEffects/screen_effects.tscn"
+VfxSpawner="*res://Nodes/VFX/VFX_Spawner/vfx_spawner.tscn"
+
+[display]
+
+window/size/viewport_width=256
+window/size/viewport_height=144
+window/size/mode=2
+window/stretch/mode="viewport"
+
+[file_customization]
+
+folder_colors={
+"res://Music/": "pink",
+"res://Nodes/": "blue",
+"res://Nodes/Entities/Enemies/": "orange",
+"res://Nodes/Entities/Player/": "teal",
+"res://Resources/": "purple",
+"res://SFX/": "yellow",
+"res://Scenes/": "green"
+}
+
+[input]
+
+walk_left={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":65,"key_label":0,"unicode":97,"location":0,"echo":false,"script":null)
+]
+}
+walk_right={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":68,"key_label":0,"unicode":100,"location":0,"echo":false,"script":null)
+]
+}
+jump={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":32,"location":0,"echo":false,"script":null)
+]
+}
+fire={
+"deadzone": 0.5,
+"events": [Object(InputEventMouseButton,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"button_mask":0,"position":Vector2(0, 0),"global_position":Vector2(0, 0),"factor":1.0,"button_index":1,"canceled":false,"pressed":false,"double_click":false,"script":null)
+]
+}
+collect={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":69,"key_label":0,"unicode":101,"location":0,"echo":false,"script":null)
+]
+}
+
+[layer_names]
+
+2d_render/layer_2="BG_Cull"
+2d_render/layer_3="Structure_Cull"
+2d_physics/layer_1="General"
+2d_physics/layer_2="Player"
+2d_physics/layer_3="Enemies"
+2d_physics/layer_4="Structure"
+2d_physics/layer_5="Terrain"
+2d_physics/layer_6="Pla"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0

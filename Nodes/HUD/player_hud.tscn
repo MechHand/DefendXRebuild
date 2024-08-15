@@ -1,0 +1,233 @@
+[gd_scene load_steps=13 format=3 uid="uid://grh1q2m52dnq"]
+
+[ext_resource type="Theme" uid="uid://1xsms24mcd22" path="res://Resources/Themes/GameTheme.tres" id="1_0x36g"]
+[ext_resource type="Script" path="res://Nodes/HUD/player_hud.gd" id="1_nheg0"]
+[ext_resource type="PackedScene" uid="uid://j8o0jo6gnhvn" path="res://Nodes/ColorPaletteShaderNode/color_palette_shader_node.tscn" id="2_lhaii"]
+[ext_resource type="Texture2D" uid="uid://dvj561lep3wx4" path="res://Nodes/HUD/InGameHud/LifeBar/Lifebar_Under.png" id="2_n8vha"]
+[ext_resource type="Texture2D" uid="uid://66baa1qfyyqp" path="res://Nodes/HUD/InGameHud/LifeBar/Lifebar_Progress.png" id="3_emgm4"]
+[ext_resource type="Texture2D" uid="uid://s6idolgpve7n" path="res://Nodes/HUD/InGameHud/LifeBar/Lifebar_Over.png" id="4_6w8k6"]
+[ext_resource type="Texture2D" uid="uid://dumlbc2yncxhp" path="res://Nodes/HUD/InGameHud/AmmoBar/AmmoBar_Under.png" id="4_dty7a"]
+[ext_resource type="Texture2D" uid="uid://3h38xm8hwqm2" path="res://Nodes/HUD/InGameHud/AmmoBar/AmmoBar_Progress.png" id="5_4iiwx"]
+[ext_resource type="Script" path="res://Nodes/HUD/ShowResourceButton.gd" id="6_r0f1f"]
+[ext_resource type="Texture2D" uid="uid://dmgu7w0rsfs7w" path="res://Nodes/HUD/InGameHud/ResourceIcon_.png" id="6_y5gen"]
+
+[sub_resource type="Gradient" id="Gradient_4ipax"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_c1ekd"]
+gradient = SubResource("Gradient_4ipax")
+width = 8
+
+[node name="PlayerHud" type="CanvasLayer" node_paths=PackedStringArray("life_bar", "life_num", "ammo_bar", "reload_bar", "ammo_num", "skip_timer_button", "wave_timer", "attack_info_panel", "wood_count", "metal_count", "component_count")]
+script = ExtResource("1_nheg0")
+life_bar = NodePath("Screen/Lifebar")
+life_num = NodePath("Screen/Lifebar/Lifebar_Num")
+ammo_bar = NodePath("Screen/AmmoBar")
+reload_bar = NodePath("Screen/AmmoBar/Reload")
+ammo_num = NodePath("Screen/AmmoBar/Ammo_Num")
+skip_timer_button = NodePath("Screen/AttackInfo/WaveTimer/SkipTimer")
+wave_timer = NodePath("Screen/AttackInfo/WaveTimer")
+attack_info_panel = NodePath("Screen/AttackInfo")
+wood_count = NodePath("Screen/ResourcePanel/ResourceArea/ResourceIcons/WoodCount")
+metal_count = NodePath("Screen/ResourcePanel/ResourceArea/ResourceIcons/MetalCount")
+component_count = NodePath("Screen/ResourcePanel/ResourceArea/ResourceIcons/ComponentCount")
+
+[node name="ColorPaletteShaderNode" parent="." instance=ExtResource("2_lhaii")]
+position = Vector2(128, 64)
+
+[node name="Screen" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_0x36g")
+
+[node name="Lifebar" type="TextureProgressBar" parent="Screen"]
+custom_minimum_size = Vector2(48, 12)
+layout_mode = 0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 50.0
+offset_bottom = 14.0
+max_value = 1.0
+step = 0.0
+value = 0.5
+nine_patch_stretch = true
+stretch_margin_left = 5
+stretch_margin_right = 5
+texture_under = ExtResource("2_n8vha")
+texture_over = ExtResource("4_6w8k6")
+texture_progress = ExtResource("3_emgm4")
+tint_over = Color(1, 1, 1, 0)
+
+[node name="Lifebar_Num" type="Label" parent="Screen/Lifebar"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 2.0
+offset_top = -5.5
+offset_right = 40.0
+offset_bottom = 5.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+text = "14"
+vertical_alignment = 1
+
+[node name="AmmoBar" type="TextureProgressBar" parent="Screen"]
+visible = false
+custom_minimum_size = Vector2(7, 9)
+layout_mode = 0
+offset_left = 2.0
+offset_top = 15.0
+offset_right = 50.0
+offset_bottom = 24.0
+max_value = 1.0
+step = 0.1
+value = 1.0
+nine_patch_stretch = true
+stretch_margin_left = 3
+stretch_margin_right = 3
+texture_under = ExtResource("4_dty7a")
+texture_progress = ExtResource("5_4iiwx")
+
+[node name="Ammo_Num" type="Label" parent="Screen/AmmoBar"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 2.0
+offset_top = -5.5
+offset_right = 38.0
+offset_bottom = 6.5
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+text = "28
+"
+vertical_alignment = 1
+
+[node name="Reload" type="TextureProgressBar" parent="Screen/AmmoBar"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 1.0
+offset_bottom = 2.0
+grow_horizontal = 2
+grow_vertical = 0
+max_value = 1.0
+step = 0.01
+value = 0.5
+nine_patch_stretch = true
+texture_progress = SubResource("GradientTexture1D_c1ekd")
+
+[node name="ResourcePanel" type="PanelContainer" parent="Screen"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -47.0
+offset_right = 32.0
+grow_vertical = 0
+
+[node name="ResourceArea" type="Control" parent="Screen/ResourcePanel"]
+layout_mode = 2
+
+[node name="ShowResourceButton" type="Button" parent="Screen/ResourcePanel/ResourceArea" node_paths=PackedStringArray("resource_panel")]
+layout_mode = 2
+offset_top = -15.0
+offset_right = 30.0
+offset_bottom = -2.0
+icon_alignment = 1
+script = ExtResource("6_r0f1f")
+resource_panel = NodePath("../..")
+
+[node name="ResourceIcons" type="TextureRect" parent="Screen/ResourcePanel/ResourceArea"]
+layout_mode = 2
+offset_right = 16.0
+offset_bottom = 45.0
+size_flags_horizontal = 0
+size_flags_vertical = 8
+texture = ExtResource("6_y5gen")
+stretch_mode = 2
+
+[node name="WoodCount" type="Label" parent="Screen/ResourcePanel/ResourceArea/ResourceIcons"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1.0
+offset_top = 2.0
+offset_right = 23.0
+offset_bottom = 14.0
+grow_horizontal = 0
+text = "14"
+
+[node name="MetalCount" type="Label" parent="Screen/ResourcePanel/ResourceArea/ResourceIcons"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1.0
+offset_top = 14.0
+offset_right = 23.0
+offset_bottom = 30.0
+grow_horizontal = 0
+text = "28"
+vertical_alignment = 1
+
+[node name="ComponentCount" type="Label" parent="Screen/ResourcePanel/ResourceArea/ResourceIcons"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1.0
+offset_top = 30.0
+offset_right = 23.0
+offset_bottom = 43.0
+grow_horizontal = 0
+text = "56"
+vertical_alignment = 2
+
+[node name="AttackInfo" type="PanelContainer" parent="Screen"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -80.0
+offset_bottom = 24.0
+grow_horizontal = 0
+
+[node name="WaveTimer" type="Label" parent="Screen/AttackInfo"]
+custom_minimum_size = Vector2(64, 16)
+layout_mode = 2
+size_flags_vertical = 1
+text = "234.s
+to next attack"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="SkipTimer" type="Button" parent="Screen/AttackInfo/WaveTimer"]
+layout_mode = 2
+offset_left = 54.0
+offset_top = 24.0
+offset_right = 78.0
+offset_bottom = 39.0
+text = "skip"
+
+[connection signal="pressed" from="Screen/AttackInfo/WaveTimer/SkipTimer" to="." method="_on_skip_timer_pressed"]
+
+[editable path="ColorPaletteShaderNode"]

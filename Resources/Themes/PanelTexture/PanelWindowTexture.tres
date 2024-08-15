@@ -1,0 +1,11 @@
+[gd_resource type="AnimatedTexture" load_steps=3 format=3 uid="uid://hd6ym6vejbwi"]
+
+[ext_resource type="Texture2D" uid="uid://dpej6ry5nm3ng" path="res://Resources/Themes/PanelTexture/PanelWindow_1.png" id="1_wp1ya"]
+[ext_resource type="Texture2D" uid="uid://4udtd5lqijet" path="res://Resources/Themes/PanelTexture/PanelWindow_2.png" id="2_rh8b8"]
+
+[resource]
+frames = 2
+frame_0/texture = ExtResource("1_wp1ya")
+frame_0/duration = 0.1
+frame_1/texture = ExtResource("2_rh8b8")
+frame_1/duration = 0.1

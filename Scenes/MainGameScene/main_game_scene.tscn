@@ -1,0 +1,67 @@
+[gd_scene load_steps=10 format=3 uid="uid://v60lwgcgnre4"]
+
+[ext_resource type="Script" path="res://Scenes/MainGameScene/main_game_scene.gd" id="1_x124m"]
+[ext_resource type="PackedScene" uid="uid://dxdn0dqromdgt" path="res://Nodes/EnemyWaveSpawner/enemy_wave_spawner.tscn" id="1_xgupb"]
+[ext_resource type="PackedScene" uid="uid://d3ki56kprs8h3" path="res://Nodes/DayNightSystem/day_night_system.tscn" id="2_bcjje"]
+[ext_resource type="PackedScene" uid="uid://dqcjjvtwuby5" path="res://Nodes/ProceduralMapGenerator/procedural_map_generator.tscn" id="2_ya7wq"]
+[ext_resource type="PackedScene" uid="uid://cqyu8yvucmngd" path="res://Nodes/Background/level_background.tscn" id="3_xyo87"]
+[ext_resource type="PackedScene" uid="uid://cgw0c1fn3yi0x" path="res://Nodes/Entities/Player/player.tscn" id="5_4wy1t"]
+[ext_resource type="PackedScene" uid="uid://dn8qejcyj1udr" path="res://Nodes/Structures/Base/player_base.tscn" id="8_4ie8w"]
+[ext_resource type="AudioStream" uid="uid://ddqeplhtal05c" path="res://Music/Three Red Hearts - Penguins vs Rabbits.ogg" id="8_din63"]
+[ext_resource type="AudioStream" uid="uid://o3s7ik6xoj11" path="res://Music/Three Red Hearts - Pixel War 1.ogg" id="9_l2o2i"]
+
+[node name="MainGameScene" type="Node2D" node_paths=PackedStringArray("player_node")]
+script = ExtResource("1_x124m")
+player_node = NodePath("Player")
+
+[node name="TimeToStartGame" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[node name="EnemyWaveSpawner" parent="." node_paths=PackedStringArray("level_node", "procedural_map") instance=ExtResource("1_xgupb")]
+level_node = NodePath("..")
+procedural_map = NodePath("../ProceduralMapGenerator")
+
+[node name="DayNightSystem" parent="." instance=ExtResource("2_bcjje")]
+
+[node name="ProceduralMapGenerator" parent="." instance=ExtResource("2_ya7wq")]
+seed = -140
+
+[node name="LevelBackground" parent="." node_paths=PackedStringArray("daylight_system") instance=ExtResource("3_xyo87")]
+daylight_system = NodePath("../DayNightSystem")
+
+[node name="Player" parent="." node_paths=PackedStringArray("enemy_wave_spawner", "game_system") instance=ExtResource("5_4wy1t")]
+position = Vector2(72, 56)
+enemy_wave_spawner = NodePath("../EnemyWaveSpawner")
+game_system = NodePath("..")
+attack_cooldown = 0.5
+
+[node name="PlayerCameraComponent" parent="Player" index="6" node_paths=PackedStringArray("procedural_map")]
+procedural_map = NodePath("../../ProceduralMapGenerator")
+
+[node name="PlayerBase" parent="." instance=ExtResource("8_4ie8w")]
+position = Vector2(32, -128)
+
+[node name="SnapPlayerToBase" parent="PlayerBase" index="1" node_paths=PackedStringArray("player_node")]
+player_node = NodePath("../../Player")
+
+[node name="UpgradeArea" parent="PlayerBase" index="9" node_paths=PackedStringArray("wave_system", "game_system", "base_generator")]
+wave_system = NodePath("../../EnemyWaveSpawner")
+game_system = NodePath("../..")
+base_generator = NodePath("../BaseGenerator")
+
+[node name="NormalOST" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_din63")
+
+[node name="BattleOST" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_l2o2i")
+
+[connection signal="timeout" from="TimeToStartGame" to="." method="_on_time_to_start_game_timeout"]
+[connection signal="wave_completed" from="EnemyWaveSpawner" to="." method="_on_enemy_wave_spawner_wave_completed"]
+[connection signal="wave_started" from="EnemyWaveSpawner" to="." method="_on_enemy_wave_spawner_wave_started"]
+[connection signal="pressed" from="PlayerBase/UpgradeArea/UpgradeScreen/Control/ReturnButton" to="PlayerBase/UpgradeArea" method="_on_return_button_pressed"]
+
+[editable path="DayNightSystem"]
+[editable path="Player"]
+[editable path="PlayerBase"]

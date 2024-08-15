@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://cldfvstlgf1mi"]
+
+[ext_resource type="Texture2D" uid="uid://c1o1mhd03fitx" path="res://Nodes/HUD/CollectButton/CollectButtonIcon_1.png" id="1_ahpsm"]
+[ext_resource type="Texture2D" uid="uid://delvgfhcpy55y" path="res://Nodes/HUD/CollectButton/CollectButtonIcon_2.png" id="2_l2isi"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_2l7nx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ahpsm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_l2isi")
+}],
+"loop": true,
+"name": &"Collect",
+"speed": 5.0
+}]
+
+[node name="ButtonHUD" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_2l7nx")
+animation = &"Collect"
+frame_progress = 0.391306

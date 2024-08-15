@@ -1,0 +1,164 @@
+[gd_scene load_steps=18 format=3 uid="uid://cqyu8yvucmngd"]
+
+[ext_resource type="Script" path="res://Nodes/Background/level_background.gd" id="1_8l4tn"]
+[ext_resource type="Texture2D" uid="uid://dbi0skq7w66tn" path="res://Nodes/Background/Background_Sky.png" id="1_653vk"]
+[ext_resource type="Texture2D" uid="uid://b4h2pd13ctle1" path="res://Nodes/Background/Background_FarMountains.png" id="2_cu6kx"]
+[ext_resource type="PackedScene" uid="uid://owkc8vhsnvyg" path="res://Nodes/Background/cloud_spawner.tscn" id="2_ojvck"]
+[ext_resource type="Texture2D" uid="uid://b5b5lakodsafi" path="res://Nodes/Background/Background_MediumMountains.png" id="3_6u507"]
+[ext_resource type="Texture2D" uid="uid://dmdlavfe7yibf" path="res://Nodes/Background/Background_NearGround.png" id="4_5mds3"]
+[ext_resource type="Texture2D" uid="uid://dmmnf2jo3wwnb" path="res://Nodes/Background/Moons/Moon1_Color.png" id="4_vkunp"]
+[ext_resource type="Texture2D" uid="uid://bf26ptivagfwx" path="res://Nodes/Background/Moons/Moon1_Normal.png" id="5_ssu6l"]
+[ext_resource type="Texture2D" uid="uid://d2vmb4re5buar" path="res://Nodes/Background/FarMountainsNormal.png" id="7_hv70y"]
+[ext_resource type="Texture2D" uid="uid://d28ob8yp4yom8" path="res://Nodes/Background/MediumMountainsNormal.png" id="9_u2dq0"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_14jiy"]
+blend_mode = 1
+light_mode = 2
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_eisn4"]
+diffuse_texture = ExtResource("4_vkunp")
+normal_texture = ExtResource("5_ssu6l")
+
+[sub_resource type="Animation" id="Animation_dt4cq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MoonScroll:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-256, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_d17r3"]
+resource_name = "Scroll"
+loop_mode = 1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MoonScroll:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-256, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_80vvj"]
+_data = {
+"RESET": SubResource("Animation_dt4cq"),
+"Scroll": SubResource("Animation_d17r3")
+}
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_lbq7a"]
+diffuse_texture = ExtResource("2_cu6kx")
+normal_texture = ExtResource("7_hv70y")
+
+[sub_resource type="CanvasTexture" id="CanvasTexture_1ng32"]
+diffuse_texture = ExtResource("3_6u507")
+normal_texture = ExtResource("9_u2dq0")
+
+[node name="LevelBackground" type="ParallaxBackground"]
+layer = -32
+script = ExtResource("1_8l4tn")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+layer = -31
+
+[node name="SpaceSun" type="DirectionalLight2D" parent="ParallaxBackground"]
+unique_name_in_owner = true
+light_mask = 2
+visibility_layer = 2
+rotation = 0.523598
+blend_mode = 2
+range_layer_min = -31
+range_layer_max = -30
+range_item_cull_mask = 2
+
+[node name="Space" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0, 0)
+motion_mirroring = Vector2(256, 0)
+
+[node name="MoonScroll" type="Node2D" parent="ParallaxBackground/Space"]
+position = Vector2(-256, 0)
+
+[node name="Moon1" type="Sprite2D" parent="ParallaxBackground/Space/MoonScroll"]
+material = SubResource("CanvasItemMaterial_14jiy")
+position = Vector2(24, 24)
+texture = SubResource("CanvasTexture_eisn4")
+
+[node name="Moon2" type="Sprite2D" parent="ParallaxBackground/Space/MoonScroll"]
+material = SubResource("CanvasItemMaterial_14jiy")
+position = Vector2(224, 48)
+scale = Vector2(0.75, 0.75)
+texture = SubResource("CanvasTexture_eisn4")
+
+[node name="Moon3" type="Sprite2D" parent="ParallaxBackground/Space/MoonScroll"]
+modulate = Color(1, 0.4, 1, 1)
+texture_filter = 2
+material = SubResource("CanvasItemMaterial_14jiy")
+position = Vector2(144, 48)
+scale = Vector2(1.25, 1.25)
+texture = SubResource("CanvasTexture_eisn4")
+
+[node name="ScrollAnim" type="AnimationPlayer" parent="ParallaxBackground/Space"]
+libraries = {
+"": SubResource("AnimationLibrary_80vvj")
+}
+autoplay = "Scroll"
+speed_scale = 0.003
+
+[node name="AmbientColor" type="CanvasModulate" parent="."]
+color = Color(0.12549, 0.32549, 1, 1)
+
+[node name="SkyLayer" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0, 0)
+motion_mirroring = Vector2(256, 0)
+
+[node name="BackgroundSky" type="Sprite2D" parent="SkyLayer"]
+texture = ExtResource("1_653vk")
+centered = false
+
+[node name="CloudSpawner" parent="SkyLayer" instance=ExtResource("2_ojvck")]
+z_index = 0
+position = Vector2(0, 8)
+amount = 2
+
+[node name="FarMountain" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.05, 0)
+motion_mirroring = Vector2(256, 0)
+
+[node name="BackgroundFarMountains" type="Sprite2D" parent="FarMountain"]
+light_mask = 3
+texture = SubResource("CanvasTexture_lbq7a")
+centered = false
+
+[node name="CloudSpawner" parent="FarMountain" instance=ExtResource("2_ojvck")]
+z_index = 0
+position = Vector2(0, 80)
+amount = 32
+preprocess = 10.0
+
+[node name="MediumMountain" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.1, 0)
+motion_mirroring = Vector2(256, 0)
+
+[node name="BackgroundMediumMountains" type="Sprite2D" parent="MediumMountain"]
+light_mask = 3
+texture = SubResource("CanvasTexture_1ng32")
+centered = false
+
+[node name="NearGround" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(0.2, 0)
+motion_mirroring = Vector2(256, 0)
+
+[node name="BackgroundNearGround" type="Sprite2D" parent="NearGround"]
+texture = ExtResource("4_5mds3")
+centered = false

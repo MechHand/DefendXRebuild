@@ -1,0 +1,213 @@
+[gd_scene load_steps=19 format=3 uid="uid://71q68r3t3mmr"]
+
+[ext_resource type="AudioStream" uid="uid://4gkf788jfe2p" path="res://SFX/Hit.wav" id="1_j4thy"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_6kcxt"]
+light_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_p8nj4"]
+offsets = PackedFloat32Array(0.8, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.392157, 0, 0, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_iccbm"]
+gradient = SubResource("Gradient_p8nj4")
+
+[sub_resource type="Curve" id="Curve_fg0sd"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_fwxrq"]
+max_value = 4.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.2, 4), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+metadata/_snap_enabled = true
+
+[sub_resource type="Curve" id="Curve_jbvl0"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_vtte7"]
+width = 32
+curve_x = SubResource("Curve_fg0sd")
+curve_y = SubResource("Curve_fwxrq")
+curve_z = SubResource("Curve_jbvl0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_38vwp"]
+lifetime_randomness = 0.5
+particle_flag_align_y = true
+particle_flag_disable_z = true
+direction = Vector3(1, 1, 0)
+spread = 180.0
+initial_velocity_min = 8.0
+initial_velocity_max = 64.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.25
+scale_curve = SubResource("CurveXYZTexture_vtte7")
+color_ramp = SubResource("GradientTexture1D_iccbm")
+
+[sub_resource type="Gradient" id="Gradient_yryi4"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_h3y3y"]
+gradient = SubResource("Gradient_yryi4")
+width = 5
+height = 5
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_44v2v"]
+blend_mode = 1
+light_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_g6i30"]
+offsets = PackedFloat32Array(0, 0.1, 0.2)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+metadata/_snap_count = 20
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_nmwft"]
+gradient = SubResource("Gradient_g6i30")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="Animation" id="Animation_yis7o"]
+resource_name = "Hit"
+step = 0.02
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ImpactParticles:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ImpactSprite:texture:gradient:offsets")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.02, 0.04, 0.4),
+"transitions": PackedFloat32Array(2, 2, 1, 0.5),
+"update": 0,
+"values": [PackedFloat32Array(0, 0.1, 0.2), PackedFloat32Array(0, 0.1, 1), PackedFloat32Array(0.2, 0.55, 1), PackedFloat32Array(0.75, 0.8, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ImpactSprite:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.6),
+"transitions": PackedFloat32Array(1, 0.5, 0.5),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_41jn2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ImpactParticles:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ImpactSprite:texture:gradient:offsets")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [PackedFloat32Array(0, 0.1, 0.2)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ImpactSprite:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7o1pb"]
+_data = {
+"Hit": SubResource("Animation_yis7o"),
+"RESET": SubResource("Animation_41jn2")
+}
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_0kkoj"]
+random_pitch = 1.3
+random_volume_offset_db = 1.0
+streams_count = 1
+stream_0/stream = ExtResource("1_j4thy")
+stream_0/weight = 1.0
+
+[node name="HitEffect" type="Node2D"]
+
+[node name="ImpactParticles" type="GPUParticles2D" parent="."]
+texture_filter = 2
+material = SubResource("CanvasItemMaterial_6kcxt")
+emitting = false
+process_material = SubResource("ParticleProcessMaterial_38vwp")
+texture = SubResource("GradientTexture2D_h3y3y")
+lifetime = 0.75
+speed_scale = 1.5
+explosiveness = 1.0
+randomness = 1.0
+
+[node name="ImpactSprite" type="Sprite2D" parent="."]
+texture_filter = 2
+material = SubResource("CanvasItemMaterial_44v2v")
+texture = SubResource("GradientTexture2D_nmwft")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_7o1pb")
+}
+autoplay = "Hit"
+speed_scale = 2.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_0kkoj")
+autoplay = true

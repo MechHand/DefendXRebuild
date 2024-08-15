@@ -1,0 +1,62 @@
+[gd_scene load_steps=9 format=3 uid="uid://dxdn0dqromdgt"]
+
+[ext_resource type="Script" path="res://Nodes/EnemyWaveSpawner/enemy_wave_spawner.gd" id="1_8crh8"]
+[ext_resource type="Script" path="res://Nodes/EnemyWaveSpawner/WaveInfo.gd" id="2_t4653"]
+
+[sub_resource type="Resource" id="Resource_f83ud"]
+script = ExtResource("2_t4653")
+time_until_start = 120.0
+enemies_until_boss = 5
+enemies_max_level = 1
+random_enemies_to_spawn = Array[String](["FloatingBot"])
+boss_to_spawn = "FloatingBot"
+
+[sub_resource type="Resource" id="Resource_yxl2d"]
+script = ExtResource("2_t4653")
+time_until_start = 60.0
+enemies_until_boss = 7
+enemies_max_level = 2
+random_enemies_to_spawn = Array[String](["FloatingBot"])
+boss_to_spawn = "FloatingBot"
+
+[sub_resource type="Resource" id="Resource_rj0f8"]
+script = ExtResource("2_t4653")
+time_until_start = 60.0
+enemies_until_boss = 10
+enemies_max_level = 3
+random_enemies_to_spawn = Array[String](["FloatingBot"])
+boss_to_spawn = "FloatingBot"
+
+[sub_resource type="Resource" id="Resource_xdtce"]
+script = ExtResource("2_t4653")
+time_until_start = 40.0
+enemies_until_boss = 15
+enemies_max_level = 4
+random_enemies_to_spawn = Array[String](["FloatingBot"])
+boss_to_spawn = "FloatingBot"
+
+[sub_resource type="Resource" id="Resource_ar3fh"]
+script = ExtResource("2_t4653")
+time_until_start = 40.0
+enemies_until_boss = 25
+enemies_max_level = 5
+random_enemies_to_spawn = Array[String](["FloatingBot"])
+boss_to_spawn = "FloatingBot"
+
+[sub_resource type="Resource" id="Resource_xnecr"]
+script = ExtResource("2_t4653")
+time_until_start = 30.0
+enemies_until_boss = 30
+enemies_max_level = 6
+random_enemies_to_spawn = Array[String](["FloatingBot"])
+boss_to_spawn = "FloatingBot"
+
+[node name="EnemyWaveSpawner" type="Node"]
+script = ExtResource("1_8crh8")
+waves = Array[ExtResource("2_t4653")]([SubResource("Resource_f83ud"), SubResource("Resource_yxl2d"), SubResource("Resource_rj0f8"), SubResource("Resource_xdtce"), SubResource("Resource_ar3fh"), SubResource("Resource_xnecr")])
+
+[node name="WaveTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="SpawnInterval" type="Timer" parent="."]
+one_shot = true

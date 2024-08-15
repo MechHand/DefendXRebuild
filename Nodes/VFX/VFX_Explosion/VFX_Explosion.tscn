@@ -1,0 +1,393 @@
+[gd_scene load_steps=34 format=3 uid="uid://bpippirnph6me"]
+
+[ext_resource type="Script" path="res://Nodes/VFX/VFX_Explosion/VFX_Explosion.gd" id="1_34i5e"]
+[ext_resource type="Texture2D" uid="uid://by3g1xy7opkn2" path="res://Nodes/VFX/VFX_Explosion/ExplosionSparkle.png" id="1_b6qf8"]
+[ext_resource type="AudioStream" uid="uid://c2ikdwsk437ix" path="res://SFX/EnemyDefeated.wav" id="3_yv3nk"]
+[ext_resource type="AudioStream" uid="uid://b8hi5m870ql86" path="res://SFX/TurretDestoyed.wav" id="4_e2qw0"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mksm0"]
+light_mode = 1
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_h5tpa"]
+blend_mode = 1
+light_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_yqji0"]
+colors = PackedColorArray(1, 0.415686, 0, 1, 1, 1, 0, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_uov1x"]
+gradient = SubResource("Gradient_yqji0")
+
+[sub_resource type="Gradient" id="Gradient_yqw4p"]
+offsets = PackedFloat32Array(0, 0.2, 0.5, 0.6, 0.9, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 0.96, 0.8, 0.8, 1, 0.8, 0, 0, 1, 0.219501, 0.219501, 0.219501, 1, 0.219608, 0.219608, 0.219608, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_4kxql"]
+gradient = SubResource("Gradient_yqw4p")
+
+[sub_resource type="Curve" id="Curve_ev0fs"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.5), 0.0, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_enabled = true
+
+[sub_resource type="Curve" id="Curve_w7ixw"]
+max_value = 2.0
+_data = [Vector2(0, 0.2), 0.0, 0.0, 0, 0, Vector2(0.3, 2), 0.0, 0.0, 0, 0, Vector2(1, 0.4), 0.0, 0.0, 0, 0]
+point_count = 3
+metadata/_snap_enabled = true
+
+[sub_resource type="Curve" id="Curve_7fout"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_x24dc"]
+width = 32
+curve_x = SubResource("Curve_ev0fs")
+curve_y = SubResource("Curve_w7ixw")
+curve_z = SubResource("Curve_7fout")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ablyu"]
+lifetime_randomness = 0.5
+particle_flag_align_y = true
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 8.0
+gravity = Vector3(0, 0, 0)
+radial_accel_min = 8.0
+radial_accel_max = 32.0
+attractor_interaction_enabled = false
+scale_min = 0.5
+scale_curve = SubResource("CurveXYZTexture_x24dc")
+color_ramp = SubResource("GradientTexture1D_4kxql")
+color_initial_ramp = SubResource("GradientTexture1D_uov1x")
+
+[sub_resource type="Gradient" id="Gradient_s1p73"]
+offsets = PackedFloat32Array(0.3, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0, 0, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_2dc76"]
+gradient = SubResource("Gradient_s1p73")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_43xc8"]
+light_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_u6d0y"]
+offsets = PackedFloat32Array(0.2, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 0, 0, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_enum2"]
+gradient = SubResource("Gradient_u6d0y")
+width = 32
+
+[sub_resource type="Curve" id="Curve_ag6kn"]
+_data = [Vector2(0, 0.168317), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_4nub5"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_enabled = true
+
+[sub_resource type="Curve" id="Curve_yvckw"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_dyua2"]
+curve_x = SubResource("Curve_ag6kn")
+curve_y = SubResource("Curve_4nub5")
+curve_z = SubResource("Curve_yvckw")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_o104r"]
+lifetime_randomness = 0.5
+particle_flag_align_y = true
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+initial_velocity_min = 64.0
+initial_velocity_max = 128.0
+gravity = Vector3(0, 98, 0)
+scale_min = 0.75
+scale_max = 1.25
+scale_curve = SubResource("CurveXYZTexture_dyua2")
+color_ramp = SubResource("GradientTexture1D_enum2")
+
+[sub_resource type="Gradient" id="Gradient_vbwi6"]
+offsets = PackedFloat32Array(0.3, 0.9)
+colors = PackedColorArray(1, 1, 0, 1, 1, 0, 0, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_mjn6p"]
+gradient = SubResource("Gradient_vbwi6")
+width = 8
+height = 8
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="Animation" id="Animation_spvj7"]
+resource_name = "Explosion"
+length = 1.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SparklesPivot:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(0.5, 0.5), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SparklesPivot:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.6),
+"transitions": PackedFloat32Array(0.5, 0.5, 0.5),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 0, 1), Color(0.466667, 0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ExplosionParticles:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1.25),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PointLight2D:color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 0, 1), Color(1, 0, 0, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("PointLight2D:energy")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.6, 1.25),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [2.0, 2.0, 0.0]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("SparklesParticles:emitting")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [false, true, false]
+}
+
+[sub_resource type="Animation" id="Animation_xrlo7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SparklesPivot:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.5, 0.5)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("SparklesPivot:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ExplosionParticles:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PointLight2D:color")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PointLight2D:energy")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [2.0]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("SparklesParticles:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cyndx"]
+_data = {
+"Explosion": SubResource("Animation_spvj7"),
+"RESET": SubResource("Animation_xrlo7")
+}
+
+[sub_resource type="Gradient" id="Gradient_dwysi"]
+offsets = PackedFloat32Array(0.245714, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_s4s6h"]
+gradient = SubResource("Gradient_dwysi")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ohik1"]
+random_pitch = 1.2
+streams_count = 2
+stream_0/stream = ExtResource("3_yv3nk")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("4_e2qw0")
+stream_1/weight = 1.0
+
+[node name="VFX_Explosion" type="Node2D"]
+z_index = 3
+script = ExtResource("1_34i5e")
+
+[node name="SparklesPivot" type="Node2D" parent="."]
+scale = Vector2(0.5, 0.5)
+
+[node name="SparkleSprite1" type="Sprite2D" parent="SparklesPivot"]
+material = SubResource("CanvasItemMaterial_mksm0")
+rotation = -2.09501
+texture = ExtResource("1_b6qf8")
+centered = false
+offset = Vector2(-4, -8)
+
+[node name="SparkleSprite2" type="Sprite2D" parent="SparklesPivot"]
+material = SubResource("CanvasItemMaterial_mksm0")
+texture = ExtResource("1_b6qf8")
+centered = false
+offset = Vector2(-4, -8)
+
+[node name="SparkleSprite3" type="Sprite2D" parent="SparklesPivot"]
+material = SubResource("CanvasItemMaterial_mksm0")
+rotation = 1.95143
+texture = ExtResource("1_b6qf8")
+centered = false
+offset = Vector2(-4, -8)
+
+[node name="ExplosionParticles" type="GPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_h5tpa")
+emitting = false
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_ablyu")
+texture = SubResource("GradientTexture2D_2dc76")
+lifetime = 0.75
+one_shot = true
+explosiveness = 0.5
+
+[node name="SparklesParticles" type="GPUParticles2D" parent="."]
+texture_filter = 2
+material = SubResource("CanvasItemMaterial_43xc8")
+emitting = false
+amount = 16
+process_material = SubResource("ParticleProcessMaterial_o104r")
+texture = SubResource("GradientTexture2D_mjn6p")
+lifetime = 1.25
+speed_scale = 1.5
+explosiveness = 0.9
+randomness = 0.5
+fixed_fps = 22
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_cyndx")
+}
+autoplay = "Explosion"
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+energy = 2.0
+texture = SubResource("GradientTexture2D_s4s6h")
+texture_scale = 4.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_ohik1")
+autoplay = true

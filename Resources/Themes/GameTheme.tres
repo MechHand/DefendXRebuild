@@ -1,0 +1,72 @@
+[gd_resource type="Theme" load_steps=13 format=3 uid="uid://1xsms24mcd22"]
+
+[ext_resource type="FontFile" uid="uid://dsgtoscm8x3jm" path="res://Resources/Themes/Fonts/V5Myopia.ttf" id="1_rihif"]
+[ext_resource type="Texture2D" uid="uid://hd6ym6vejbwi" path="res://Resources/Themes/PanelTexture/PanelWindowTexture.tres" id="2_256a3"]
+[ext_resource type="Texture2D" uid="uid://uw6gf5qf6wm0" path="res://Resources/Themes/ButtonTexture/Button5.png" id="2_kwdp6"]
+[ext_resource type="Texture2D" uid="uid://bfio7khnq58uf" path="res://Resources/Themes/ButtonTexture/Button3.png" id="3_g2yq4"]
+[ext_resource type="Texture2D" uid="uid://8435annoo21b" path="res://Resources/Themes/ButtonTexture/Button2.png" id="4_a4xyi"]
+[ext_resource type="Texture2D" uid="uid://bi0vmn5punf6j" path="res://Resources/Themes/ButtonTexture/Button1.png" id="5_3gnoc"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_83tra"]
+texture = ExtResource("2_kwdp6")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e51wa"]
+texture = ExtResource("3_g2yq4")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_27fd3"]
+texture = ExtResource("4_a4xyi")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bx36j"]
+texture = ExtResource("5_3gnoc")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nak5d"]
+texture = ExtResource("2_256a3")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 8.0
+texture_margin_bottom = 4.0
+expand_margin_left = 4.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yewp6"]
+bg_color = Color(0.0627451, 0.0627451, 0.0705882, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.152941, 0.109804, 0.25098, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[resource]
+Button/font_sizes/font_size = 8
+Button/fonts/font = ExtResource("1_rihif")
+Button/styles/disabled = SubResource("StyleBoxTexture_83tra")
+Button/styles/focus = SubResource("StyleBoxTexture_e51wa")
+Button/styles/hover = SubResource("StyleBoxTexture_27fd3")
+Button/styles/normal = SubResource("StyleBoxTexture_bx36j")
+Button/styles/pressed = SubResource("StyleBoxTexture_e51wa")
+Label/font_sizes/font_size = 8
+Label/fonts/font = ExtResource("1_rihif")
+Panel/styles/panel = SubResource("StyleBoxTexture_nak5d")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_yewp6")

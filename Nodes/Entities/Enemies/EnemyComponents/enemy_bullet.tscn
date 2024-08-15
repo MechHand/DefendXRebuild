@@ -1,0 +1,144 @@
+[gd_scene load_steps=13 format=3 uid="uid://bc5aplf0wywmj"]
+
+[ext_resource type="Script" path="res://Nodes/Entities/Enemies/EnemyComponents/enemy_bullet.gd" id="1_vc7qq"]
+[ext_resource type="AudioStream" uid="uid://c8f3lm6uyxtx3" path="res://SFX/EnemyLaserShot.wav" id="2_0cfju"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_dfqcd"]
+light_mode = 1
+
+[sub_resource type="Gradient" id="Gradient_k4xlp"]
+offsets = PackedFloat32Array(0.3, 0.9)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0.752941, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qylgk"]
+gradient = SubResource("Gradient_k4xlp")
+width = 12
+height = 8
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_7mpse"]
+offsets = PackedFloat32Array(0.2, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_igba4"]
+gradient = SubResource("Gradient_7mpse")
+width = 16
+height = 16
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+metadata/_snap_enabled = true
+
+[sub_resource type="Animation" id="Animation_yneb3"]
+resource_name = "BulletAnim"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [6.28319, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:texture:gradient:offsets")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [PackedFloat32Array(0.3, 0.9), PackedFloat32Array(0, 0.7)]
+}
+
+[sub_resource type="Animation" id="Animation_18xq8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:texture:gradient:offsets")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [PackedFloat32Array(0.3, 0.9)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6lagy"]
+_data = {
+"BulletAnim": SubResource("Animation_yneb3"),
+"RESET": SubResource("Animation_18xq8")
+}
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1d66n"]
+radius = 3.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_m7quw"]
+random_pitch = 1.2
+streams_count = 1
+stream_0/stream = ExtResource("2_0cfju")
+
+[node name="EnemyBullet" type="Node2D"]
+top_level = true
+script = ExtResource("1_vc7qq")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+material = SubResource("CanvasItemMaterial_dfqcd")
+texture = SubResource("GradientTexture2D_qylgk")
+
+[node name="BulletLight" type="PointLight2D" parent="."]
+texture = SubResource("GradientTexture2D_igba4")
+texture_scale = 2.0
+
+[node name="BulletAnim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_6lagy")
+}
+autoplay = "BulletAnim"
+
+[node name="BulletHitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 26
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BulletHitbox"]
+shape = SubResource("CircleShape2D_1d66n")
+debug_color = Color(1, 0, 0.701961, 0)
+
+[node name="AutoDestroyTimer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_m7quw")
+autoplay = true
+
+[connection signal="area_entered" from="BulletHitbox" to="." method="_verify_collision"]
+[connection signal="body_entered" from="BulletHitbox" to="." method="_verify_collision"]
+[connection signal="timeout" from="AutoDestroyTimer" to="." method="_on_auto_destroy_timer_timeout"]

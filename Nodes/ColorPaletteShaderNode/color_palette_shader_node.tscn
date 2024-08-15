@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://j8o0jo6gnhvn"]
+
+[ext_resource type="Shader" path="res://Resources/Shaders/color_palette_shader.gdshader" id="1_sg2jy"]
+[ext_resource type="Texture2D" uid="uid://bpeefp3a1lcll" path="res://icon.svg" id="1_wwm2h"]
+[ext_resource type="Script" path="res://Nodes/ColorPaletteShaderNode/ShaderApplier.gd" id="3_eb24o"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0k8s0"]
+shader = ExtResource("1_sg2jy")
+shader_parameter/colors = null
+shader_parameter/color_amount = 0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ka885"]
+shader = ExtResource("1_sg2jy")
+shader_parameter/colors = null
+shader_parameter/color_amount = 0
+
+[node name="ColorPaletteShaderNode" type="Node2D"]
+z_index = 32
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
+copy_mode = 2
+
+[node name="ShaderApplier" type="Sprite2D" parent="BackBufferCopy"]
+process_priority = 1
+visible = false
+material = SubResource("ShaderMaterial_0k8s0")
+position = Vector2(1.52588e-05, 3.8147e-06)
+scale = Vector2(4, 3)
+texture = ExtResource("1_wwm2h")
+script = ExtResource("3_eb24o")
+palette_file = "res://Resources/Palettes/calm-48.txt"
+shader = SubResource("ShaderMaterial_ka885")

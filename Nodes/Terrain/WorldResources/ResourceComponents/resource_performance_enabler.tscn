@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dxxba13pbncd"]
+
+[node name="ResourcePerformanceEnabler" type="VisibleOnScreenEnabler2D"]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(-2.86102e-06, -28)
+scale = Vector2(4, 3.6)
